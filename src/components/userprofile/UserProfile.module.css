@@ -1,0 +1,51 @@
+.profileContainer {
+  display: flex;
+  background-color: #f7f7f7;
+  height: 100vh; /* Full height */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #ffcc00;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebarList li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sidebarList li:hover {
+  background-color: #ffe0b2; /* Light orange on hover */
+}
+
+.activeTab {
+  background-color: #ff6f61; /* Active tab color */
+  color: white; /* Text color for active tab */
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.content div {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 10px;
+}

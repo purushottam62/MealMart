@@ -1,30 +1,45 @@
 import React from "react";
 import styles from "../App.module.css";
 import { NavLink } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
+import { FaRegUserCircle } from "react-icons/fa";
+
 const Navigation = () => {
   return (
     <div>
-      <nav>
-        <ul className={styles.nav}>
+      <nav className={styles.navbar}>
+        <ul className={styles.navLeft}>
           <li>
-            <NavLink to="/" className={styles.navItem} href="#">
+            <NavLink to="/" className={styles.navItem}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/menu" className={styles.navItem} href="#">
+            <NavLink to="/menu" className={styles.navItem}>
               Menu
             </NavLink>
           </li>
           <li>
-            <NavLink to="/deals" className={styles.navItem} href="#">
+            <NavLink to="/deals" className={styles.navItem}>
               Deals
             </NavLink>
           </li>
           <li>
-            <a className={styles.navItem} href="#">
+            <NavLink to="/contact" className={styles.navItem}>
               Contact
-            </a>
+            </NavLink>
+          </li>
+        </ul>
+        <ul className={styles.navRight}>
+          <li>
+            <NavLink to="/cart" className={styles.navItem}>
+              <FaShoppingCart />
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/profile" className={styles.navItem}>
+              <FaRegUserCircle />
+            </NavLink>
           </li>
           <li>
             <NavLink to="/login" className={styles.navItem}>

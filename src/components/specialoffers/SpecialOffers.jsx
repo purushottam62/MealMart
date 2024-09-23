@@ -1,31 +1,60 @@
 import React from "react";
 import styles from "./SpecialOffers.module.css";
+import Navigation from "../Navigation";
 import Header from "../Header";
 
-const SpecialOffers = () => {
+const SpecialOffer = () => {
   const offers = [
-    { name: "Buy 1 Get 1 Free Pizza", price: "₹499", imageUrl: "" },
-    { name: "20% Off on All Burgers", price: "₹399", imageUrl: "" },
-    { name: "Combo Meal: Burger + Fries + Drink", price: "₹299", imageUrl: "" },
-    { name: "Free Dessert with Any Main Course", price: "Free", imageUrl: "" },
-    { name: "Family Pack: 4 Pizzas for ₹1499", price: "₹1499", imageUrl: "" },
+    {
+      id: 1,
+      title: "Super Saver Combo",
+      price: 299,
+      description: "A delightful combo meal with a special price.",
+      image: "images/offer1.avif",
+    },
+    {
+      id: 2,
+      title: "Weekend Feast",
+      price: 499,
+      description: "Indulge in our weekend special offers.",
+      image: "images/offer1.avif",
+    },
+    {
+      id: 3,
+      title: "Family Pack",
+      price: 799,
+      description: "Perfect for a family meal with all the best dishes.",
+      image: "images/offer1.avif",
+    },
+    {
+      id: 4,
+      title: "Biryani Bonanza",
+      price: 199,
+      description: "Enjoy the flavor-packed biryani at an amazing price.",
+      image: "images/biryani offer.avif",
+    },
   ];
 
   return (
     <>
       <Header></Header>
-      <div className={styles.offersContainer}>
-        <h1 className={styles.title}>Special Offers</h1>
-        <p className={styles.subTitle}>Unbeatable deals just for you!</p>
+      <div className={styles.specialOfferContainer}>
+        <h1 className={styles.header}>Special Offers</h1>
         <div className={styles.offersGrid}>
-          {offers.map((offer, index) => (
-            <div key={index} className={styles.offerCard}>
-              <div
-                className={styles.offerImage}
-                style={{ backgroundImage: `url(${offer.imageUrl})` }}
-              ></div>
-              <h2 className={styles.offerName}>{offer.name}</h2>
-              <p className={styles.offerPrice}>{offer.price}</p>
+          {offers.map((offer) => (
+            <div key={offer.id} className={styles.offerCard}>
+              <div className={styles.imageContainer}>
+                <img
+                  src={offer.image} // Assuming images are in 'public/images' directory
+                  alt={offer.title}
+                  className={styles.offerImage}
+                />
+              </div>
+              <h2 className={styles.offerTitle}>{offer.title}</h2>
+              <p className={styles.offerDescription}>{offer.description}</p>
+              <div className={styles.priceContainer}>
+                <p className={styles.offerPrice}>₹{offer.price}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -34,4 +63,4 @@ const SpecialOffers = () => {
   );
 };
 
-export default SpecialOffers;
+export default SpecialOffer;

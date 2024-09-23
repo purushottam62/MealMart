@@ -17,6 +17,24 @@
   justify-content: space-between;
   align-items: center;
 }
+.navbar {
+  background-color: #ffcc00;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between; /* Space between left and right items */
+  align-items: center;
+}
+
+.navLeft,
+.navRight {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navRight {
+  margin-left: auto; /* Pushes the right list to the end */
+}
 
 .logo {
   font-size: 28px;
@@ -71,6 +89,14 @@
   margin-bottom: 30px;
 }
 
+/* Ensure image fits within the container and maintains aspect ratio */
+.offerImage {
+  width: 100%;
+  height: auto; /* Automatically adjust height to maintain aspect ratio */
+  object-fit: contain; /* Ensure the entire image fits within the box */
+  border-radius: 8px;
+}
+
 .btn {
   background-color: white;
   color: #ff6f61;
@@ -111,6 +137,8 @@
 
 .promoItem img {
   max-width: 100%;
+  height: auto; /* Ensure the image maintains its aspect ratio */
+  object-fit: contain; /* Ensure the whole image is visible in the container */
   border-radius: 10px;
   margin-bottom: 20px;
 }

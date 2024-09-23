@@ -1,0 +1,83 @@
+.contact {
+  background-color: #ffcc00; /* Bright background color */
+  color: #333;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.contactHeading {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #ff6f61; /* Vibrant text color */
+}
+
+.contactDescription {
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.contactForm {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.formGroup input,
+.formGroup textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btnSubmit {
+  background-color: #ff6f61;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btnSubmit:hover {
+  background-color: #e55a4f; /* Darker shade on hover */
+}
+
+.socialLinks {
+  margin-top: 40px;
+}
+
+.socialLinks h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.socialLink {
+  display: inline-block;
+  margin: 0 10px;
+  text-decoration: none;
+  color: #ff6f61;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.socialLink:hover {
+  color: #e55a4f; /* Darker shade on hover */
+}

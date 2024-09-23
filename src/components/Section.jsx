@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../App.module.css";
 import { NavLink } from "react-router-dom";
+
 const Section = () => {
   return (
     <div>
@@ -18,8 +19,9 @@ const Section = () => {
           </div>
           <div className={styles.heroImage}>
             <img
-              src="https://via.placeholder.com/500x300"
+              src="images/burger.jpeg"
               alt="Delicious meal"
+              className={styles.offerImage}
             />
           </div>
         </div>
@@ -30,7 +32,11 @@ const Section = () => {
           <h2>Current Promotions</h2>
           <div className={styles.promoItems}>
             <div className={styles.promoItem}>
-              <img src="https://via.placeholder.com/200" alt="Promo 1" />
+              <img
+                src="images/burger.jpeg"
+                alt="Promo 1"
+                className={styles.offerImage}
+              />
               <h3>Big Burger Deal</h3>
               <p>
                 Get a big burger and fries for just $5.99. Limited time offer!
@@ -40,7 +46,11 @@ const Section = () => {
               </a>
             </div>
             <div className={styles.promoItem}>
-              <img src="https://via.placeholder.com/200" alt="Promo 2" />
+              <img
+                src="images/burger.jpeg"
+                alt="Promo 2"
+                className={styles.offerImage}
+              />
               <h3>Family Combo Pack</h3>
               <p>
                 Perfect for sharing! Get 2 large pizzas and drinks for only
@@ -51,7 +61,11 @@ const Section = () => {
               </a>
             </div>
             <div className={styles.promoItem}>
-              <img src="https://via.placeholder.com/200" alt="Promo 3" />
+              <img
+                src="images/family pack.jpeg"
+                alt="Promo 3"
+                className={styles.offerImage}
+              />
               <h3>Happy Meal</h3>
               <p>Order our famous Happy Meal with a surprise toy!</p>
               <a className={`${styles.btn} ${styles.btnSecondary}`} href="#">
@@ -71,8 +85,9 @@ const Section = () => {
             committed to using the best ingredients for our dishes.
           </p>
           <img
-            src="https://via.placeholder.com/400x300"
+            src="images/burger.jpeg"
             alt="Restaurant Image"
+            className={styles.offerImage}
           />
         </div>
       </section>

@@ -4,12 +4,16 @@ import Header from "../Header";
 
 const Menu = () => {
   const menuItems = [
-    { name: "Delicious Pasta", price: "$12.99" },
-    { name: "Mouthwatering Burger", price: "$9.99" },
-    { name: "Savory Sushi", price: "$15.99" },
-    { name: "Tasty Tacos", price: "$8.99" },
-    { name: "Refreshing Salad", price: "$7.99" },
-    { name: "Decadent Cake", price: "$5.99" },
+    { name: "Delicious Pasta", price: "1299", src: "images/pastas.avif" },
+    {
+      name: "Mouthwatering Burger",
+      price: "999",
+      src: "images/burgers.avif",
+    },
+    { name: "Savory Sushi", price: "1599", src: "images/sushi.avif" },
+    { name: "Tasty Tacos", price: "899", src: "images/tacos.avif" },
+    { name: "Refreshing Salad", price: "799", src: "images/salad.avif" },
+    { name: "Decadent Cake", price: "599", src: "images/cake.avif" },
   ];
 
   return (
@@ -21,9 +25,11 @@ const Menu = () => {
         <div className={styles.menuGrid}>
           {menuItems.map((item, index) => (
             <div key={index} className={styles.menuItem}>
-              <div className={styles.itemImage}></div>
+              <div className={styles.itemImage}>
+                <img className={styles.offerImage} src={item.src}></img>
+              </div>
               <h2 className={styles.itemName}>{item.name}</h2>
-              <p className={styles.itemPrice}>{item.price}</p>
+              <p className={styles.itemPrice}>₹{item.price}</p>
             </div>
           ))}
         </div>

@@ -8,6 +8,8 @@ import Login from "./userAuthentication/login/Login.jsx";
 import Register from "./userAuthentication/Register.jsx";
 import Menu from "./components/menu/Menu.jsx";
 import SpecialOffers from "./components/specialoffers/SpecialOffers.jsx";
+import Contact from "./components/contact/Contact.jsx";
+import UserProfile from "./components/userprofile/UserProfile.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
   {
     path: "/deals",
     element: <SpecialOffers></SpecialOffers>,
+  },
+  {
+    path: "/contact",
+    element: <Contact></Contact>,
+  },
+  {
+    path: "/profile",
+    element: <UserProfile></UserProfile>,
   },
 ]);
 
