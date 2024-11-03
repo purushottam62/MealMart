@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 # from django.utils import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,12 +42,29 @@ INSTALLED_APPS = [
     'userAuthentication',
      'rest_framework',
     'rest_framework.authtoken',
+     'corsheaders',
+     'locationdetails',
+     'rest_framework_simplejwt',
+     'orders'
 ]
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # Allow unrestricted access
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+}
+
 AUTH_USER_MODEL = 'auth.User'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,14 +74,29 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
 ]
+
+  
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Adjust this to your frontend's address
+    # Add any other origins you want to allow
+]
+# settings.py
+
+
+# or to allow all origins (not recommended for production)
+CORS_ALLOW_ALL_ORIGINS = True
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')  # Adjust the path as needed
+
 
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        # 'DIRS': ['templates'],
+          'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +110,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+SECRET_KEY='django-insecure-(ki)^3hvsp-*j%kl+p6)p#@n%svckh-1#up=8qzdv_#ob4g(n4'
 
 
 # Database

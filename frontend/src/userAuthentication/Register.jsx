@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import Navigation from "../components/Navigation";
 import Header from "../components/Header";
+import useAuth from "./Auth";
 
 const Register = () => {
+  const { saveTokens } = useAuth();
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,44 +19,50 @@ const Register = () => {
       ...prevData,
       [name]: value,
     }));
+    setError(""); // Reset error message on input change
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
-
+    console.log("Sending registration data:", {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+    });
+    const requestdata = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+    };
     try {
-      const response = await fetch("/api/register/", {
+      const response = await fetch("/api/v1/register/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestdata),
       });
 
       const data = await response.json();
       if (response.ok) {
-        alert("Registration successful");
+        saveTokens(data.access, data.refresh);
+        console.log("tokens saved ", data.access, data.refresh);
+        alert("Registration successful, logged in");
       } else {
-        alert(`Registration failed: ${data.detail}`);
+        setError(data.detail || "Registration failed");
       }
     } catch (error) {
       console.error("Error registering:", error);
-      alert("Registration failed");
+      setError("Registration failed");
     }
   };
 
   return (
     <div>
-      <Header></Header>
+      <Header />
       <section className="vh-100" style={{ backgroundColor: "#eee" }}>
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -69,23 +78,17 @@ const Register = () => {
                       <form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
                         <div className="d-flex flex-row align-items-center mb-4">
                           <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                          <div
-                            data-mdb-input-init
-                            className="form-outline flex-fill mb-0"
-                          >
+                          <div className="form-outline flex-fill mb-0">
                             <input
                               type="text"
-                              id="form3Example1c"
+                              id="username"
                               className="form-control"
-                              name="name"
-                              value={formData.name}
+                              name="username"
+                              value={formData.username}
                               onChange={handleChange}
                               required
                             />
-                            <label
-                              className="form-label"
-                              htmlFor="form3Example1c"
-                            >
+                            <label className="form-label" htmlFor="username">
                               Your Name
                             </label>
                           </div>
@@ -93,23 +96,17 @@ const Register = () => {
 
                         <div className="d-flex flex-row align-items-center mb-4">
                           <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                          <div
-                            data-mdb-input-init
-                            className="form-outline flex-fill mb-0"
-                          >
+                          <div className="form-outline flex-fill mb-0">
                             <input
                               type="email"
-                              id="form3Example3c"
+                              id="email"
                               className="form-control"
                               name="email"
                               value={formData.email}
                               onChange={handleChange}
                               required
                             />
-                            <label
-                              className="form-label"
-                              htmlFor="form3Example3c"
-                            >
+                            <label className="form-label" htmlFor="email">
                               Your Email
                             </label>
                           </div>
@@ -117,23 +114,17 @@ const Register = () => {
 
                         <div className="d-flex flex-row align-items-center mb-4">
                           <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-                          <div
-                            data-mdb-input-init
-                            className="form-outline flex-fill mb-0"
-                          >
+                          <div className="form-outline flex-fill mb-0">
                             <input
                               type="password"
-                              id="form3Example4c"
+                              id="password"
                               className="form-control"
                               name="password"
                               value={formData.password}
                               onChange={handleChange}
                               required
                             />
-                            <label
-                              className="form-label"
-                              htmlFor="form3Example4c"
-                            >
+                            <label className="form-label" htmlFor="password">
                               Password
                             </label>
                           </div>
@@ -141,13 +132,10 @@ const Register = () => {
 
                         <div className="d-flex flex-row align-items-center mb-4">
                           <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                          <div
-                            data-mdb-input-init
-                            className="form-outline flex-fill mb-0"
-                          >
+                          <div className="form-outline flex-fill mb-0">
                             <input
                               type="password"
-                              id="form3Example4cd"
+                              id="confirmPassword"
                               className="form-control"
                               name="confirmPassword"
                               value={formData.confirmPassword}
@@ -156,12 +144,14 @@ const Register = () => {
                             />
                             <label
                               className="form-label"
-                              htmlFor="form3Example4cd"
+                              htmlFor="confirmPassword"
                             >
                               Repeat your password
                             </label>
                           </div>
                         </div>
+
+                        {error && <div className="text-danger">{error}</div>}
 
                         <div className="form-check d-flex justify-content-center mb-5">
                           <input
@@ -183,8 +173,6 @@ const Register = () => {
                         <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                           <button
                             type="submit"
-                            data-mdb-button-init
-                            data-mdb-ripple-init
                             className="btn btn-primary btn-lg"
                           >
                             Register
@@ -196,7 +184,7 @@ const Register = () => {
                       <img
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
                         className="img-fluid"
-                        alt="Sample image"
+                        alt="Sample"
                       />
                     </div>
                   </div>

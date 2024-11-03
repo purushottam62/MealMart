@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom"; // Import NavLink
 import styles from "./UserProfile.module.css";
 import Header from "../Header";
+import LocationComponent from "../../location/LocationComponent";
+import Address from "./address/Address";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("Orders");
@@ -11,7 +14,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <Header></Header>
+      <Header />
       <div className={styles.profileContainer}>
         <aside className={styles.sidebar}>
           <h2>User Profile</h2>
@@ -37,7 +40,7 @@ const UserProfile = () => {
         </aside>
         <div className={styles.content}>
           {activeTab === "Orders" && <Orders />}
-          {activeTab === "Saved Address" && <SavedAddress />}
+          {activeTab === "Saved Address" && <Address></Address>}
           {activeTab === "Edit Profile" && <EditProfile />}
           {activeTab === "Select Language" && <SelectLanguage />}
           {activeTab === "Notification Settings" && <NotificationSettings />}
@@ -51,9 +54,7 @@ const UserProfile = () => {
 
 // Sample components for each tab
 const Orders = () => <div>Order details will be displayed here.</div>;
-const SavedAddress = () => (
-  <div>Saved address details will be displayed here.</div>
-);
+
 const EditProfile = () => <div>Edit your profile information here.</div>;
 const SelectLanguage = () => <div>Select your preferred language here.</div>;
 const NotificationSettings = () => (

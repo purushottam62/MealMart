@@ -3,8 +3,17 @@ import styles from "../App.module.css";
 import { NavLink } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
+import useAuth from "../userAuthentication/Auth";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Navigation = () => {
+  const [isloggedin, setisloggedin] = useState(false);
+  const token = localStorage.getItem("access");
+  useEffect(() => {
+    if (token) setisloggedin(true);
+  }, []);
+
   return (
     <div>
       <nav className={styles.navbar}>
@@ -41,11 +50,19 @@ const Navigation = () => {
               <FaRegUserCircle />
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/login" className={styles.navItem}>
-              Login
-            </NavLink>
-          </li>
+          {isloggedin ? (
+            <li>
+              <NavLink to="/logout" className={styles.navItem}>
+                Logout
+              </NavLink>
+            </li>
+          ) : (
+            <li>
+              <NavLink to="/login" className={styles.navItem}>
+                Login
+              </NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </div>
