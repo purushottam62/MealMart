@@ -11,4 +11,4 @@ class DeliveryAddress(models.Model):
     state = models.CharField(max_length=100)
     
     def __str__(self):
-        return f"{self.houseNumber}, {self.street}"
+        return f"{self.street}, {self.houseNumber}, {self.city}, {self.state}"

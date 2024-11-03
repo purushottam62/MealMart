@@ -74,7 +74,7 @@ def save_address(request):
             pinCode=data['pinCode'],
             city=data['city'],
             state=data['state'],
-        )
+            )
         print(address)
         return JsonResponse({'message': 'Address saved successfully'}, status=201)
 

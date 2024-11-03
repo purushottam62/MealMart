@@ -17,11 +17,12 @@ const Invoice = () => {
     famousLocation: "",
   });
 
-  const [pinCode, setPincode] = useState(""); // New state for pinCode
+  const [pinCode, setPincode] = useState("");
+  const [addingNewAddress, setAddingNewAddress] = useState(false);
+  const [loadingAddress, setLoadingAddress] = useState(false); // New state for loading address
 
   useEffect(() => {
     if (wantsDelivery) {
-      // Fetch saved addresses when user wants delivery
       fetch("http://localhost:8000/api/v2/addresses/", {
         method: "POST",
         headers: {
@@ -33,7 +34,6 @@ const Invoice = () => {
         .then((data) => {
           if (data && Array.isArray(data)) {
             setSavedAddresses(data);
-            // If there are saved addresses, set the first one as the default
             if (data.length > 0) {
               setAddress(data[0]);
             }
@@ -43,11 +43,11 @@ const Invoice = () => {
         })
         .catch((error) => console.error("Error fetching addresses:", error));
     }
-  }, [wantsDelivery]); // Fetch saved addresses only when wantsDelivery changes
+  }, [wantsDelivery]);
 
   useEffect(() => {
     if (pinCode && pinCode > 100000) {
-      // Fetch city and state based on pinCode
+      setLoadingAddress(true); // Start loading when pin code is entered
       fetch("http://localhost:8000/api/v2/fetch-address/", {
         method: "POST",
         headers: {
@@ -67,9 +67,18 @@ const Invoice = () => {
             console.error("Error fetching address:", data.error);
           }
         })
-        .catch((error) => console.error("Error fetching address:", error));
+        .catch((error) => console.error("Error fetching address:", error))
+        .finally(() => {
+          setLoadingAddress(false); // Stop loading once done
+        });
+    } else {
+      setAddress((prevAddress) => ({
+        ...prevAddress,
+        city: "",
+        state: "",
+      }));
     }
-  }, [pinCode]); // Fetch city/state when pinCode changes
+  }, [pinCode]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -79,11 +88,13 @@ const Invoice = () => {
     }));
   };
 
-  const handlePlaceOrder = () => {
+  const handleSaveAddress = () => {
     const payload = {
       ...address,
+      pinCode: pinCode,
       token,
     };
+    console.log(payload);
 
     fetch("http://localhost:8000/api/v2/save-address/", {
       method: "POST",
@@ -103,6 +114,7 @@ const Invoice = () => {
       })
       .catch((error) => console.error("Error placing order:", error));
   };
+  const handlePlaceOrder = () => {};
 
   return (
     <div className={styles.invoiceContainer}>
@@ -136,55 +148,90 @@ const Invoice = () => {
             <>
               <h3>Your Saved Addresses:</h3>
               {savedAddresses.map((savedAddress, index) => (
-                <div key={index}>
+                <div
+                  key={index}
+                  className={styles.addressCard}
+                  onClick={() => setAddress(savedAddress)}
+                >
                   <p>
-                    {savedAddress.street}, {savedAddress.houseNumber},{" "}
-                    {savedAddress.city}, {savedAddress.state},{" "}
-                    {savedAddress.famousLocation}
+                    <strong>
+                      {savedAddress.street}, {savedAddress.houseNumber}
+                    </strong>
                   </p>
-                  <button onClick={() => setAddress(savedAddress)}>
-                    Select this address
-                  </button>
+                  <p>
+                    {savedAddress.city}, {savedAddress.state}
+                  </p>
+                  <p>{savedAddress.famousLocation}</p>
                 </div>
               ))}
+              <button
+                className={styles.button}
+                onClick={() => setAddingNewAddress(true)}
+              >
+                Add a New Address
+              </button>
             </>
           ) : (
             <p>No saved addresses found. Please add a new address below:</p>
           )}
-          <p>City: {address.city || "Fetching..."}</p>
-          <p>State: {address.state || "Fetching..."}</p>
-          <input
-            type="text"
-            name="street"
-            placeholder="Street Number"
-            value={address.street}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-          <input
-            type="text"
-            name="houseNumber"
-            placeholder="House Number"
-            value={address.houseNumber}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-          <input
-            type="text"
-            name="famousLocation"
-            placeholder="Famous Location"
-            value={address.famousLocation}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-          <input
-            type="text"
-            name="pinCode"
-            placeholder="Pin Code"
-            value={pinCode}
-            onChange={(e) => setPincode(e.target.value)}
-            className={styles.input}
-          />
+
+          {addingNewAddress && (
+            <div>
+              <input
+                type="text"
+                name="street"
+                placeholder="Street Number"
+                value={address.street}
+                onChange={handleInputChange}
+                className={styles.input}
+              />
+              <input
+                type="text"
+                name="houseNumber"
+                placeholder="House Number"
+                value={address.houseNumber}
+                onChange={handleInputChange}
+                className={styles.input}
+              />
+              <input
+                type="text"
+                name="famousLocation"
+                placeholder="Famous Location"
+                value={address.famousLocation}
+                onChange={handleInputChange}
+                className={styles.input}
+              />
+              <input
+                type="text"
+                name="pinCode"
+                placeholder="Pin Code"
+                value={pinCode}
+                onChange={(e) => setPincode(e.target.value)}
+                className={styles.input}
+              />
+              <button
+                className={styles.button}
+                onClick={() => handleSaveAddress()}
+              >
+                Save Address
+              </button>
+            </div>
+          )}
+
+          {loadingAddress ? ( // Show loading while fetching address
+            <p>Fetching address details...</p>
+          ) : (
+            <>
+              {pinCode && pinCode.length === 6 ? (
+                <>
+                  <p>City: {address.city || "Not fetched"}</p>
+                  <p>State: {address.state || "Not fetched"}</p>
+                </>
+              ) : (
+                <p>Please enter a valid pin code to fetch address details.</p>
+              )}
+            </>
+          )}
         </div>
       )}
 

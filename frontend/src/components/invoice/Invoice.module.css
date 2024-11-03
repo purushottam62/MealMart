@@ -94,3 +94,83 @@
 .button:hover {
   background-color: #e65c00;
 }
+.invoiceContainer {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.invoiceDetails {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.itemImage {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+.deliveryOption {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.deliveryAddress {
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.addressCard {
+  background-color: #e6f7ff;
+  border: 1px solid #80bfff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addressCard:hover {
+  background-color: #b3e0ff; /* Lighter blue on hover */
+}
+
+.input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
