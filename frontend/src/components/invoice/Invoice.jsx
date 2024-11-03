@@ -8,6 +8,7 @@ const Invoice = () => {
   const token = localStorage.getItem("access");
 
   const [wantsDelivery, setWantsDelivery] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState([]);
   const [address, setAddress] = useState({
     city: "",
     state: "",
@@ -19,14 +20,40 @@ const Invoice = () => {
   const [pinCode, setPincode] = useState(""); // New state for pinCode
 
   useEffect(() => {
-    if (wantsDelivery && pinCode > 100000) {
-      // Ensure pinCode is provided
-      fetch("http://localhost:8000/api/v2/fetch-address/", {
-        method: "POST", // Change to POST as you're sending data
+    if (wantsDelivery) {
+      // Fetch saved addresses when user wants delivery
+      fetch("http://localhost:8000/api/v2/addresses/", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ pinCode }), // Send the pinCode in the request body
+        body: JSON.stringify({ token }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && Array.isArray(data)) {
+            setSavedAddresses(data);
+            // If there are saved addresses, set the first one as the default
+            if (data.length > 0) {
+              setAddress(data[0]);
+            }
+          } else {
+            console.error("Error fetching addresses:", data.error);
+          }
+        })
+        .catch((error) => console.error("Error fetching addresses:", error));
+    }
+  }, [wantsDelivery]); // Fetch saved addresses only when wantsDelivery changes
+
+  useEffect(() => {
+    if (pinCode && pinCode > 100000) {
+      // Fetch city and state based on pinCode
+      fetch("http://localhost:8000/api/v2/fetch-address/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pinCode }),
       })
         .then((response) => response.json())
         .then((data) => {
@@ -42,25 +69,21 @@ const Invoice = () => {
         })
         .catch((error) => console.error("Error fetching address:", error));
     }
-  }, [wantsDelivery, pinCode]); // Include pinCode in dependencies
+  }, [pinCode]); // Fetch city/state when pinCode changes
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setAddress((prevAddress) => ({
       ...prevAddress,
-      pinCode: pinCode,
       [name]: value,
     }));
   };
 
   const handlePlaceOrder = () => {
-    // Create a payload that includes the address and token
-    const token = localStorage.getItem("access");
     const payload = {
-      ...address, // Spread the address object to include its fields
-      token: token, // Include the token in the payload
+      ...address,
+      token,
     };
-    console.log("payload is ", payload);
 
     fetch("http://localhost:8000/api/v2/save-address/", {
       method: "POST",
@@ -109,6 +132,25 @@ const Invoice = () => {
       {wantsDelivery && (
         <div className={styles.deliveryAddress}>
           <h2>Delivery Address</h2>
+          {savedAddresses.length > 0 ? (
+            <>
+              <h3>Your Saved Addresses:</h3>
+              {savedAddresses.map((savedAddress, index) => (
+                <div key={index}>
+                  <p>
+                    {savedAddress.street}, {savedAddress.houseNumber},{" "}
+                    {savedAddress.city}, {savedAddress.state},{" "}
+                    {savedAddress.famousLocation}
+                  </p>
+                  <button onClick={() => setAddress(savedAddress)}>
+                    Select this address
+                  </button>
+                </div>
+              ))}
+            </>
+          ) : (
+            <p>No saved addresses found. Please add a new address below:</p>
+          )}
           <p>City: {address.city || "Fetching..."}</p>
           <p>State: {address.state || "Fetching..."}</p>
           <input
@@ -140,7 +182,7 @@ const Invoice = () => {
             name="pinCode"
             placeholder="Pin Code"
             value={pinCode}
-            onChange={(e) => setPincode(e.target.value)} // Update pinCode state
+            onChange={(e) => setPincode(e.target.value)}
             className={styles.input}
           />
         </div>

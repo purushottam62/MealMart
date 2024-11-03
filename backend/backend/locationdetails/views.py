@@ -87,6 +87,8 @@ def save_address(request):
     
     
 
+
+
 @api_view(['POST'])
 def list_user_addresses(request):
     """Fetch all saved addresses for the authenticated user based on the token provided in the request body."""
@@ -94,8 +96,9 @@ def list_user_addresses(request):
         # Load JSON data from request body
         data = json.loads(request.body)
         token = data.get('token')
-        print("token is ",token)
-        
+
+        print("Received token:", token)  # Debugging print
+
         if not token:
             return JsonResponse({'error': 'Token is required'}, status=400)
 
@@ -103,6 +106,7 @@ def list_user_addresses(request):
         try:
             validated_token = UntypedToken(token)
             user_id = validated_token['user_id']
+            print("Validated user ID:", user_id)  # Debugging print
         except TokenError as e:
             return JsonResponse({'error': 'Invalid or expired token', 'details': str(e)}, status=401)
 
@@ -111,6 +115,10 @@ def list_user_addresses(request):
 
         # Fetch all addresses associated with this user
         addresses = DeliveryAddress.objects.filter(user=user)
+
+        if not addresses.exists():  # Check if any addresses exist
+            return JsonResponse({'error': 'No addresses found for this user'}, status=404)
+
         data = [
             {
                 'street': address.street,
@@ -122,6 +130,8 @@ def list_user_addresses(request):
             }
             for address in addresses
         ]
+
+        print("Fetched addresses:", data)  # Debugging print
         return JsonResponse(data, safe=False, status=200)
 
     except User.DoesNotExist:
@@ -130,4 +140,3 @@ def list_user_addresses(request):
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-
