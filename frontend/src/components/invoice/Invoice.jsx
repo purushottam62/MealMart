@@ -114,7 +114,42 @@ const Invoice = () => {
       })
       .catch((error) => console.error("Error placing order:", error));
   };
-  const handlePlaceOrder = () => {};
+
+  const handlePlaceOrder = () => {
+    const payload = {
+      token, // Send token in the body as per your requirement
+      itemName,
+      price,
+      imageUrl: itemImage,
+      address: {
+        street: address.street,
+        houseNumber: address.houseNumber,
+        city: address.city,
+        state: address.state,
+        famousLocation: address.famousLocation,
+        pinCode: pinCode,
+      },
+    };
+    console.log(payload.address);
+
+    fetch("http://localhost:8000/api/v3/accept_order/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        alert("Order placed successfully!");
+      })
+      .catch((error) => console.error("Error placing order:", error));
+  };
 
   return (
     <div className={styles.invoiceContainer}>
