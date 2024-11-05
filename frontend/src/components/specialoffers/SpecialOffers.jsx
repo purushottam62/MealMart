@@ -2,8 +2,13 @@ import React from "react";
 import styles from "./SpecialOffers.module.css";
 import Navigation from "../Navigation";
 import Header from "../Header";
+import { useContext } from "react";
+import { StoreContext } from "../store";
+import { useNavigate } from "react-router-dom";
 
 const SpecialOffer = () => {
+  const { handleBuy, handleAddToCart } = useContext(StoreContext);
+  const navigate = useNavigate();
   const offers = [
     {
       id: 1,
@@ -54,6 +59,23 @@ const SpecialOffer = () => {
               <p className={styles.offerDescription}>{offer.description}</p>
               <div className={styles.priceContainer}>
                 <p className={styles.offerPrice}>₹{offer.price}</p>
+                <button
+                  className={styles.buyButton}
+                  onClick={() => {
+                    console.log("offer image from handle buy", offer.image);
+                    handleBuy(navigate, offer.name, offer.price, offer.image);
+                  }}
+                >
+                  Buy Now
+                </button>
+                <button
+                  className={styles.addToCartButton}
+                  onClick={() => {
+                    handleAddToCart(offer.title, offer.price, offer.image);
+                  }}
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           ))}

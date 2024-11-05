@@ -6,7 +6,7 @@ import { StoreContext } from "../store";
 import { useNavigate } from "react-router-dom";
 
 const Menu = () => {
-  const { handleBuy } = useContext(StoreContext);
+  const { handleBuy, handleAddToCart } = useContext(StoreContext);
   const navigate = useNavigate();
   const menuItems = [
     { name: "Delicious Pasta", price: "1299", src: "images/pastas.avif" },
@@ -35,14 +35,23 @@ const Menu = () => {
               </div>
               <h2 className={styles.itemName}>{item.name}</h2>
               <p className={styles.itemPrice}>₹{item.price}</p>
-              <p
-                className={styles.itemPrice}
+              <button
+                className={styles.buyButton}
                 onClick={() => {
+                  console.log("item image from handle buy", item.src);
                   handleBuy(navigate, item.name, item.price, item.src);
                 }}
               >
                 Buy Now
-              </p>
+              </button>
+              <button
+                className={styles.addToCartButton}
+                onClick={() => {
+                  handleAddToCart(item.name, item.price, item.src);
+                }}
+              >
+                Add to Cart
+              </button>
             </div>
           ))}
         </div>

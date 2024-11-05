@@ -16,6 +16,7 @@ import Invoice from "./components/invoice/Invoice.jsx";
 import Store from "./components/store.jsx";
 import ReactWrapper from "./ReactWrapper.jsx";
 import Home from "./components/Home.jsx";
+import Cart from "./components/cart/Cart.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: "/invoice",
     element: <Invoice></Invoice>,
+  },
+  {
+    path: "/cart",
+    element: <Cart></Cart>,
   },
 ]);
 

@@ -45,7 +45,9 @@ INSTALLED_APPS = [
      'corsheaders',
      'locationdetails',
      'rest_framework_simplejwt',
-     'orders'
+     'orders',
+     'cart',
+     
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

@@ -4,6 +4,7 @@ import styles from "./UserProfile.module.css";
 import Header from "../Header";
 import LocationComponent from "../../location/LocationComponent";
 import Address from "./address/Address";
+import OrdersPage from "../orders/OrdersPage";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("Orders");
@@ -39,7 +40,7 @@ const UserProfile = () => {
           </ul>
         </aside>
         <div className={styles.content}>
-          {activeTab === "Orders" && <Orders />}
+          {activeTab === "Orders" && <OrdersPage></OrdersPage>}
           {activeTab === "Saved Address" && <Address></Address>}
           {activeTab === "Edit Profile" && <EditProfile />}
           {activeTab === "Select Language" && <SelectLanguage />}
@@ -53,7 +54,6 @@ const UserProfile = () => {
 };
 
 // Sample components for each tab
-const Orders = () => <div>Order details will be displayed here.</div>;
 
 const EditProfile = () => <div>Edit your profile information here.</div>;
 const SelectLanguage = () => <div>Select your preferred language here.</div>;
