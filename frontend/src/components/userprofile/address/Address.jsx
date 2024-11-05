@@ -4,7 +4,14 @@ import styles from "./Address.module.css";
 const Address = () => {
   const [addresses, setAddresses] = useState([]);
   const token = localStorage.getItem("access"); // Assume the token is saved in localStorage
-
+  if (!token)
+    return (
+      <>
+        <h1 className={styles.noAddresses}>
+          Please login first to see your saved addresses
+        </h1>
+      </>
+    );
   useEffect(() => {
     const fetchAddresses = async () => {
       try {

@@ -2,6 +2,16 @@ import React, { useEffect, useState } from "react";
 import styles from "./OrdersPage.module.css";
 
 const OrdersPage = () => {
+  const token = localStorage.getItem("access"); // Assuming token is stored in
+  if (!token) {
+    return (
+      <>
+        <p className={styles.noOrders}>
+          Please Login first to see your all orders
+        </p>
+      </>
+    );
+  }
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

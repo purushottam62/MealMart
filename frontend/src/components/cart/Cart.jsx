@@ -5,6 +5,11 @@ import Navigation from "../Navigation";
 import Header from "../Header";
 
 const Cart = () => {
+  const token = localStorage.getItem("access");
+  if (!token) {
+    <p>Please login first to see your cart </p>;
+    redirect("/login");
+  }
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
 

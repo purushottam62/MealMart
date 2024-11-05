@@ -7,10 +7,20 @@ const Store = ({ children }) => {
   const handleBuy = (navigate, itemName, price, image) => {
     // Corrected the order of parameters
     console.log("buy button clicked");
+    const token = localStorage.getItem("access");
+    if (!token) {
+      alert("please login/register first to buy");
+
+      return;
+    }
     navigate("/invoice", { state: { price, itemName, image } });
   };
   const handleAddToCart = async (name, price, image) => {
     const token = localStorage.getItem("access"); // Adjust if you store the token differently
+    if (!token) {
+      alert("please login/register first");
+      return;
+    }
 
     try {
       const response = await fetch("/api/v4/add-to-cart/", {
